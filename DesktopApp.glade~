@@ -169,7 +169,7 @@
                       <object class="GtkLabel" id="label5">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <signal name="activate-current-link" handler="on_label5_activate_current_link" swapped="no"/>
+                        <signal name="activate-link" handler="on_label5_activate_link" swapped="no"/>
                       </object>
                       <packing>
                         <property name="expand">False</property>

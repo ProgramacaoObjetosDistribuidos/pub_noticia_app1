@@ -7,7 +7,7 @@ from string import replace
 from classes import News
 
 # Criando a Classe do Programa
-class PublicadorApp(object):
+class DesktopApp(object):
     def __init__(self):
         # Agora como eu havia dito vamos utilizar uma função da classe gtk.Builder
         # para carregar o arquivo XML gerado pelo Glade.
@@ -26,7 +26,7 @@ class PublicadorApp(object):
         self.window = builder.get_object("windowMain")
         self.window_chat = builder.get_object("windowChat")
         self.window_notice = builder.get_object("windowNoticeDetails")
-
+        self.notifications = (builder.get_object("label1"), builder.get_object("label2"), builder.get_object("label3"), builder.get_object("label4"), builder.get_object("label5"))
 
         # Obtendo os widgets de todos os componentes da janela de detalhes da noticia
         self.d_notice_title = builder.get_object("label_Title")
@@ -53,7 +53,7 @@ class PublicadorApp(object):
         builder.connect_signals({"gtk_main_quit": gtk.main_quit,
                                  "on_button_send_clicked": self.send_message,
                                  "on_open_chat_activate": self.call_chat,
-                                 "": self.call_notice
+                                 "on_label5_activate_current_link": self.call_notice
                                  })
 
     # Criando as funções que eu especifiquei como valor no dicionário dos Sinais
@@ -65,61 +65,20 @@ class PublicadorApp(object):
     #função para chamar a janela do chat
     def call_chat(self, widget):
         #Executando a Janela do chat
-        self.window_chat.run()
-         
-        #Ativando a opção fechar da Janela do chat
-        self.window_chat.hide()
+        self.window_chat.show()
 
     #função para chamar a janela com os detalhes da noticia
     def call_notice(self, widget):
         #Executando a Janela Sobre
-        self.window_notice.run()
-         
-        #Ativando a opção fechar da Janela Sobre
-        self.window_notice.hide()
-
-    def open_news(self, widget):
-
-        with open("ok.xml", "rb") as xmlToRead:
-            xml = xmlToRead.read()
-        noticia = News.newsFromXml(xml)
-        self.title.set_text(noticia.title)
-        self.author.set_text(noticia.publishers)
-        self.content.get_buffer().set_text(noticia.content)
-
-    def new_notice(self, widget):
-        self.title.set_text("")
-        self.author.set_text("")
-        self.content.get_buffer().set_text("")
-        gtk.FileChooserButton.set_filename(self.image, "macaco")
-
-    def save_news(self, widget):
-        encodeImg = News.encodeImg(gtk.FileChooserButton.get_filename(self.image))
-        title = self.title.get_text()
-        author = self.author.get_text()
-        content = self.content.get_buffer().get_text(self.content.get_buffer().get_start_iter(), self.content.get_buffer().get_end_iter())
-        content = replace(content, '\n' ,' ')
-        summary = content[:20]
-        noticia = News(author, title, summary, content, encodeImg, False)
-        with open(title+'.xml', 'wb') as new_file:
-            new_file.write(noticia.toXml())
-
-    def publish_news(self, widget):
-        encodeImg = News.encodeImg(gtk.FileChooserButton.get_filename(self.image))
-        title = self.title.get_text()
-        author = self.author.get_text()
-        content = self.content.get_buffer().get_text(self.content.get_buffer().get_start_iter(), self.content.get_buffer().get_end_iter())
-        content = replace(content, '\n' ,' ')
-        summary = content[:20]
-        noticia = News(author, title, summary, content, encodeImg, False)
-        loader.publish(noticia)
-
-
+        self.window_notice.show()
 
 if __name__ == "__main__":
     # Criando uma instância do Programa
     app = DesktopApp()
-
+    app.window.maximize()
+    nome = gtk.Label("Ihuuu")
+    for notify in app.notifications:
+        notify.set_text("Uhuuiiii ")
 
     # Função do GTK que deixa a janela principal do nosso programa em loop para
     # que ela permanceça em execução, sendo encerrada apenas ao chamar a função
