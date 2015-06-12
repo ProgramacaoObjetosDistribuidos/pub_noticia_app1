@@ -5,8 +5,8 @@ from threading import Thread
 
 __author__ = 'Joao Marcos F'
 
-TCP_IP = '10.10.5.107'
-TCP_PORT = 5555
+TCP_IP = '192.168.0.154'
+TCP_PORT = 1231
 BUFFER_SIZE = 1024
 
 # encodeImg = News.encodeImg("/home/joaomarcos/Pictures/Venda.png")
@@ -45,6 +45,7 @@ class Publisher(Thread):
 
     def run(self):
         self.publish()
+
 # import xml.etree.ElementTree as ET
 # xml = ET.parse("ok.xml")
 # for child in xml._root:
