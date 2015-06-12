@@ -40,11 +40,9 @@ class DesktopApp(Thread):
         self.c_view_message = builder.get_object("view_messages")
         self.c_text_message = builder.get_object("text_message")
 
-        #Obtendo os widgets de todos os componentes da janela principal
+        self.list_notifications
 
-        #ainda precisa mapear
-
-        # Exibindo a janela do programa
+       # Exibindo a janela do programa
         self.window.show()
 
         # Agora nós iremos conectar os sinais que definimos para cada widget no
@@ -55,7 +53,11 @@ class DesktopApp(Thread):
         builder.connect_signals({"gtk_main_quit": gtk.main_quit,
                                  "on_button_send_clicked": self.send_message,
                                  "on_open_chat_activate": self.call_chat,
-                                 "on_label5_clicked": self.call_notice
+                                 "on_label1_clicked": self.call_notice1,
+                                 "on_label2_clicked": self.call_notice2,
+                                 "on_label3_clicked": self.call_notice3,
+                                 "on_label4_clicked": self.call_notice4,
+                                 "on_label5_clicked": self.call_notice5
                                  })
 
     # Criando as funções que eu especifiquei como valor no dicionário dos Sinais
@@ -70,15 +72,72 @@ class DesktopApp(Thread):
         self.window_chat.show()
 
     #função para chamar a janela com os detalhes da noticia
-    def call_notice(self, widget):
-        #Executando a Janela Sobre
+    def call_notice1(self, widget):
+        #Executando a Janela de Noticias
+        new_notice = news[0]
+        self.d_notice_title.set_text(new_notice.title)
+        self.d_notice_author.set_text(new_notice.publishers)
+        self.d_notice_content.get_buffer().set_text(new_notice.content)
+        imgBytes = News.decodeImg(new_notice.image)
+        imageFile = open("image1.png","wb")
+        imageFile.write(imgBytes)
+        imageFile.close()
+        self.d_notice_image.set_from_file(imageFile.name)
+        self.window_notice.show()
+
+    def call_notice2(self, widget):
+        new_notice = news[1]
+        self.d_notice_title.set_text(new_notice.title)
+        self.d_notice_author.set_text(new_notice.publishers)
+        self.d_notice_content.get_buffer().set_text(new_notice.content)
+        imgBytes = News.decodeImg(new_notice.image)
+        imageFile = open("image2.png","wb")
+        imageFile.write(imgBytes)
+        imageFile.close()
+        self.d_notice_image.set_from_file(imageFile.name)
+        self.window_notice.show()
+
+    def call_notice3(self, widget):
+        new_notice = news[2]
+        self.d_notice_title.set_text(new_notice.title)
+        self.d_notice_author.set_text(new_notice.publishers)
+        self.d_notice_content.get_buffer().set_text(new_notice.content)
+        imgBytes = News.decodeImg(new_notice.image)
+        imageFile = open("image3.png","wb")
+        imageFile.write(imgBytes)
+        imageFile.close()
+        self.d_notice_image.set_from_file(imageFile.name)
+        self.window_notice.show()
+
+    def call_notice4(self, widget):
+        new_notice = news[3]
+        self.d_notice_title.set_text(new_notice.title)
+        self.d_notice_author.set_text(new_notice.publishers)
+        self.d_notice_content.get_buffer().set_text(new_notice.content)
+        imgBytes = News.decodeImg(new_notice.image)
+        imageFile = open("image4.png","wb")
+        imageFile.write(imgBytes)
+        imageFile.close()
+        self.d_notice_image.set_from_file(imageFile.name)
+        self.window_notice.show()
+
+    def call_notice5(self, widget):
+        new_notice = news[4]
+        self.d_notice_title.set_text(new_notice.title)
+        self.d_notice_author.set_text(new_notice.publishers)
+        self.d_notice_content.get_buffer().set_text(new_notice.content)
+        imgBytes = News.decodeImg(new_notice.image)
+        imageFile = open("image5.png","wb")
+        imageFile.write(imgBytes)
+        imageFile.close()
+        self.d_notice_image.set_from_file(imageFile.name)
         self.window_notice.show()
 
     def run(self):
         app = DesktopApp()
         app.window.maximize()
         for notify in app.notifications:
-            notify.set_label("Notice")
+            notify.set_label(news.title)
 
         # Função do GTK que deixa a janela principal do nosso programa em loop para
         # que ela permanceça em execução, sendo encerrada apenas ao chamar a função
