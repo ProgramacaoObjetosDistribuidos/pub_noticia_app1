@@ -86,8 +86,14 @@ class PublicadorApp(object):
         content = self.content.get_buffer().get_text(self.content.get_buffer().get_start_iter(), self.content.get_buffer().get_end_iter())
         content = replace(content, '\n' ,' ')
         summary = content[:20]
-        noticia = News(author, title, summary, content, encodeImg, 'false')
-        loader.publish(noticia)
+        if title != "" and author != "" and content != "":
+            noticia = News(author, title, summary, content, encodeImg, 'false')
+            loader.publish(noticia)
+        else:
+            diag=gtk.MessageDialog(self.window, gtk.DIALOG_MODAL,gtk.MESSAGE_ERROR,gtk.BUTTONS_OK)
+            diag.set_markup("Preencha todos os campos de forma correta!")
+            diag.run()
+            diag.destroy()
 
 
 
