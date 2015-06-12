@@ -53,15 +53,16 @@ class PublicadorApp(object):
     # Criando as funções que eu especifiquei como valor no dicionário dos Sinai
 
     def open_news(self, widget):
-
-        with open("ok.xml", "rb") as xmlToRead:
+        dialog = gtk.FileChooserDialog("Selecione um arquivo", None, gtk.FILE_CHOOSER_ACTION_OPEN, gtk.BUTTONS_OK, None)
+        dialog.run()
+        uri = dialog.get_uri()
+        dialog.hide()
+        with open(uri, "rb") as xmlToRead:
             xml = xmlToRead.read()
         noticia = News.newsFromXml(xml)
         self.title.set_text(noticia.title)
         self.author.set_text(noticia.publishers)
         self.content.get_buffer().set_text(noticia.content)
-
-
 
     def new_notice(self, widget):
         self.title.set_text("")
@@ -94,7 +95,10 @@ class PublicadorApp(object):
             publisher = Publisher()
             publisher.set_news(noticia)
             publisher.publish()
-
+            diag=gtk.MessageDialog(self.window, gtk.DIALOG_MODAL,gtk.MESSAGE_INFO,gtk.BUTTONS_OK)
+            diag.set_markup("Notícia enviada!")
+            diag.run()
+            diag.destroy()
         else:
             diag=gtk.MessageDialog(self.window, gtk.DIALOG_MODAL,gtk.MESSAGE_ERROR,gtk.BUTTONS_OK)
             diag.set_markup("Preencha todos os campos de forma correta!")
