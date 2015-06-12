@@ -53,9 +53,11 @@ class PublicadorApp(object):
     # Criando as funções que eu especifiquei como valor no dicionário dos Sinai
 
     def open_news(self, widget):
-        dialog = gtk.FileChooserDialog("Selecione um arquivo", None, gtk.FILE_CHOOSER_ACTION_OPEN, gtk.BUTTONS_OK, None)
+        dialog = gtk.FileChooserDialog("Selecione um arquivo", None, gtk.FILE_CHOOSER_ACTION_OPEN, None, None)
+        dialog.add_button(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL)
+        dialog.add_button(gtk.STOCK_OPEN, gtk.RESPONSE_OK)
         dialog.run()
-        uri = dialog.get_uri()
+        uri = dialog.get_filename()
         dialog.hide()
         with open(uri, "rb") as xmlToRead:
             xml = xmlToRead.read()
