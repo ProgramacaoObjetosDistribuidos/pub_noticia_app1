@@ -86,7 +86,7 @@ class PublicadorApp(object):
         content = self.content.get_buffer().get_text(self.content.get_buffer().get_start_iter(), self.content.get_buffer().get_end_iter())
         content = replace(content, '\n' ,' ')
         summary = content[:20]
-        noticia = News(author, title, summary, content, encodeImg, False)
+        noticia = News(author, title, summary, content, encodeImg, 'false')
         loader.publish(noticia)
 
 

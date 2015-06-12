@@ -22,3 +22,4 @@ if (__name__ == '__main__'):
         response.fromXml(xml)
 
         print response.name
+
