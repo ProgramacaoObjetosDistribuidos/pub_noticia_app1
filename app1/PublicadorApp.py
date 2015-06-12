@@ -5,6 +5,7 @@ import gtk
 import loader
 from string import replace
 from classes import News
+from loader import Publisher
 
 # Criando a Classe do Programa
 class PublicadorApp(object):
@@ -86,12 +87,14 @@ class PublicadorApp(object):
         content = self.content.get_buffer().get_text(self.content.get_buffer().get_start_iter(), self.content.get_buffer().get_end_iter())
         content = replace(content, '\n' ,' ')
         summary = content[:20]
-        noticia = News(author, title, summary, content, encodeImg,'false')
-        loader.publish(noticia)
 
         if title != "" and author != "" and content != "":
+            print "publishing.."
             noticia = News(author, title, summary, content, encodeImg, 'false')
-            loader.publish(noticia)
+            publisher = Publisher()
+            publisher.set_news(noticia)
+            publisher.start()
+
         else:
             diag=gtk.MessageDialog(self.window, gtk.DIALOG_MODAL,gtk.MESSAGE_ERROR,gtk.BUTTONS_OK)
             diag.set_markup("Preencha todos os campos de forma correta!")
@@ -102,11 +105,5 @@ class PublicadorApp(object):
 if __name__ == "__main__":
     # Criando uma instância do Programa
     app = PublicadorApp()
-
-
-    # Função do GTK que deixa a janela principal do nosso programa em loop para
-    # que ela permanceça em execução, sendo encerrada apenas ao chamar a função
-    # gtk.main_quit que está configurado no sinal gtk_main_quit, referente ao
-    # botão fechar do programa
     gtk.main()
 
