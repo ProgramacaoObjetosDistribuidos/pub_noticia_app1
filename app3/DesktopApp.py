@@ -53,7 +53,7 @@ class DesktopApp(object):
         builder.connect_signals({"gtk_main_quit": gtk.main_quit,
                                  "on_button_send_clicked": self.send_message,
                                  "on_open_chat_activate": self.call_chat,
-                                 "on_label5_activate_current_link": self.call_notice
+                                 "on_label5_clicked": self.call_notice
                                  })
 
     # Criando as funções que eu especifiquei como valor no dicionário dos Sinais
@@ -76,9 +76,8 @@ if __name__ == "__main__":
     # Criando uma instância do Programa
     app = DesktopApp()
     app.window.maximize()
-    nome = gtk.Label("Ihuuu")
     for notify in app.notifications:
-        notify.set_text("Uhuuiiii ")
+        notify.set_label("Notice")
 
     # Função do GTK que deixa a janela principal do nosso programa em loop para
     # que ela permanceça em execução, sendo encerrada apenas ao chamar a função
