@@ -4,20 +4,19 @@ import gtk
 import webkit
 import urllib
 import urlparse
-import sys
+from threading import Thread
 
-FB_TOKEN_FILE = 'access_token.txt'
+APP_KEY = '768606509924888'
 
-
-class Browser(object):
-    def __init__(self, app_key, token_file=FB_TOKEN_FILE):
+class Browser():
+    def __init__(self, app_key):
         self.debug = False
         self.close_window = True
-        self.token_file = token_file
         self.token = ''
 
         # app
         self.window = gtk.Window(gtk.WINDOW_TOPLEVEL)
+        self.window.set_title("Notify Client")
         self.scrolled_window = gtk.ScrolledWindow()
         # Cria a webview
         self.web_view = webkit.WebView()
@@ -26,7 +25,7 @@ class Browser(object):
         # Coonectando eventos
         self.window.connect('destroy', self._destroy_event_cb)
         self.web_view.connect('load-committed', self._load_committed_cb)  # evento de redirecionamento carregado
-        self.window.set_default_size(1024, 800)
+        self.window.set_default_size(1024, 700)
         # carrega pagina Facebook usando OAuth
         self.web_view.load_uri(
             'https://www.facebook.com/dialog/oauth?client_id=%s&redirect_uri=%s&response_type=token&scope=email' % (
@@ -34,7 +33,6 @@ class Browser(object):
         )
 
     def _load_committed_cb(self, web_view, frame):
-
 
         uri = frame.get_uri()
         parse = urlparse.urlparse(uri)
@@ -44,27 +42,16 @@ class Browser(object):
             # pega token da URL
             params = urlparse.parse_qs(parse.fragment)
             self.token = params['access_token'][0]
-            token_file = open(self.token_file, 'w')
-            token_file.write(self.token)
-            token_file.close()
-            gtk.main_quit()  # Finish
-            if self.close_window:
-                try:
-                    self.window.destroy()
-                except RuntimeError:
-                    pass
+            with open("access_token.txt","wb") as token_file:
+                token_file.write(self.token)
+            self.window.destroy()
 
     def _destroy_event_cb(self, widget):
         return gtk.main_quit()
 
-    def authorize(self):
-        self.window.show_all()
-        gtk.main()
-
-
 if (__name__ == '__main__'):
-    # Creates the browser
-    browser = Browser(app_key='768606509924888', token_file=FB_TOKEN_FILE)
-    # Launch browser window
-    browser.authorize()
+    b = Browser(APP_KEY)
+    b.window.show_all()
+    gtk.main()
+
 

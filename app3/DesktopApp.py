@@ -5,10 +5,12 @@ import gtk
 import loader
 from string import replace
 from classes import News
+from threading import Thread
 
 # Criando a Classe do Programa
-class DesktopApp(object):
+class DesktopApp(Thread):
     def __init__(self):
+        Thread.__init__(self)
         # Agora como eu havia dito vamos utilizar uma função da classe gtk.Builder
         # para carregar o arquivo XML gerado pelo Glade.
 
@@ -72,16 +74,16 @@ class DesktopApp(object):
         #Executando a Janela Sobre
         self.window_notice.show()
 
-if __name__ == "__main__":
-    # Criando uma instância do Programa
-    app = DesktopApp()
-    app.window.maximize()
-    for notify in app.notifications:
-        notify.set_label("Notice")
+    def run(self):
+        app = DesktopApp()
+        app.window.maximize()
+        for notify in app.notifications:
+            notify.set_label("Notice")
 
-    # Função do GTK que deixa a janela principal do nosso programa em loop para
-    # que ela permanceça em execução, sendo encerrada apenas ao chamar a função
-    # gtk.main_quit que está configurado no sinal gtk_main_quit, referente ao
-    # botão fechar do programa
-    gtk.main()
+        # Função do GTK que deixa a janela principal do nosso programa em loop para
+        # que ela permanceça em execução, sendo encerrada apenas ao chamar a função
+        # gtk.main_quit que está configurado no sinal gtk_main_quit, referente ao
+        # botão fechar do programa
+        gtk.main()
+
 
