@@ -5,8 +5,8 @@ from threading import Thread
 
 __author__ = 'Joao Marcos F'
 
-TCP_IP = '10.10.2.39'
-TCP_PORT = 1231
+TCP_IP = '10.10.5.107'
+TCP_PORT = 5555
 BUFFER_SIZE = 1024
 
 # encodeImg = News.encodeImg("/home/joaomarcos/Pictures/Venda.png")

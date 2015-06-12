@@ -41,7 +41,8 @@ def connect(token):
 
     print token
 
-    info = channel_login.recv(BUFFER_SIZE)
+    info = channel_login.recv(1024)
+    print info
     response = Response()
     response.fromXml(info)
     channel_login.close()
@@ -49,19 +50,23 @@ def connect(token):
     print response.error
 
     if response.error == '':
-        while True:
-            channel_news = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            channel_news.connect((TCP_IP, TCP_PORT_LISTEN))
-            print "waiting for news"
-            msg = "HASNOTIFICATION:"+response.session+"\n"
+        channel_news = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        channel_news.connect((TCP_IP, TCP_PORT_LISTEN))
+        print "waiting for news"
+        msg = "HASNOTIFICATION:"+response.session+"\n"
 
-            send_msg(channel_news, msg)
-            # open thread for notificator
-            # take a reference for it
-            while True:
-                info = channel_news.recv(BUFFER_SIZE)
-                print info
-                #send a message for a notificator with the new notice
+        send_msg(channel_news, msg)
+        # open thread for notificator
+        # take a reference for it
+        connected = True
+        while connected:
+            print "A receber.."
+            info = channel_news.recv(BUFFER_SIZE)
+            print info
+            if info == None or info == '':
+                connected = False
+
+            #send a message for a notificator with the new notices
 
 
 def get_token():

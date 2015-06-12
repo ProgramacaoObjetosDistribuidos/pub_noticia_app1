@@ -93,7 +93,7 @@ class PublicadorApp(object):
             noticia = News(author, title, summary, content, encodeImg, 'false')
             publisher = Publisher()
             publisher.set_news(noticia)
-            publisher.start()
+            publisher.publish()
 
         else:
             diag=gtk.MessageDialog(self.window, gtk.DIALOG_MODAL,gtk.MESSAGE_ERROR,gtk.BUTTONS_OK)
